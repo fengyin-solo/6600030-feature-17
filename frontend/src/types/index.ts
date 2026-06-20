@@ -37,3 +37,10 @@ export interface FEAResult {
   maxStress: number;
   reactionForces: { nodeId: number; fx: number; fy: number }[];
 }
+
+export interface PresetInfo {
+  name: string;          // display name
+  scene: string;         // scene description
+  boundary: string;      // boundary conditions
+  load: string;          // load characteristics
+}

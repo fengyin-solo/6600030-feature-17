@@ -1,11 +1,12 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
-import type { FEAModel, FEAResult } from '../types';
+import type { FEAModel, FEAResult, PresetInfo } from '../types';
 import {
   solve as feaSolve,
   presetCantileverBeam,
   presetBridgeTruss,
   presetSimpleFrame,
+  PRESET_INFO,
   jetColormap,
 } from '../utils/fea-solver';
 
@@ -74,6 +75,10 @@ export const useFEAStore = defineStore('fea', () => {
     return result.value.maxDisplacement;
   });
 
+  const currentPresetInfo = computed<PresetInfo>(
+    () => PRESET_INFO[selectedPreset.value] ?? PRESET_INFO.cantilever
+  );
+
   const elementColors = computed(() => {
     const colors = new Map<number, string>();
     if (!result.value || model.value.elements.length === 0) {
@@ -120,6 +125,7 @@ export const useFEAStore = defineStore('fea', () => {
     heatmapMode,
     maxStress,
     maxDisplacement,
+    currentPresetInfo,
     elementColors,
     loadPreset,
     solve,

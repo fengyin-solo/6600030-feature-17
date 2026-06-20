@@ -38,6 +38,30 @@ const store = useFEAStore();
       </div>
     </div>
 
+    <!-- Preset info -->
+    <div class="bg-slate-900 rounded p-2 space-y-2">
+      <div>
+        <div class="text-[10px] text-sky-400 font-bold mb-0.5">
+          {{ store.currentPresetInfo.name }} · 场景说明
+        </div>
+        <p class="text-[10px] leading-relaxed text-slate-300">
+          {{ store.currentPresetInfo.scene }}
+        </p>
+      </div>
+      <div>
+        <div class="text-[10px] text-slate-400 font-bold mb-0.5">边界条件</div>
+        <p class="text-[10px] leading-relaxed text-slate-300">
+          {{ store.currentPresetInfo.boundary }}
+        </p>
+      </div>
+      <div>
+        <div class="text-[10px] text-slate-400 font-bold mb-0.5">载荷特点</div>
+        <p class="text-[10px] leading-relaxed text-slate-300">
+          {{ store.currentPresetInfo.load }}
+        </p>
+      </div>
+    </div>
+
     <!-- Solve button -->
     <button
       @click="store.solve()"

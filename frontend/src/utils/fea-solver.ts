@@ -1,4 +1,4 @@
-import type { FEAModel, FEAResult, Node, Element, Load } from '../types';
+import type { FEAModel, FEAResult, Node, Element, Load, PresetInfo } from '../types';
 
 // ─── FEA Solver ─────────────────────────────────────────────────────────────
 export function solve(model: FEAModel): FEAResult {
@@ -347,6 +347,28 @@ export const presetSimpleFrame = (): FEAModel => {
     model.loads.push({ nodeId: topCenter.id, fx: 5000, fy: -20000 });
   }
   return model;
+};
+
+// ─── Preset Metadata ────────────────────────────────────────────────────────
+export const PRESET_INFO: Record<string, PresetInfo> = {
+  cantilever: {
+    name: '悬臂梁',
+    scene: '一端固定、另一端自由的悬臂结构（长 4 m × 高 1 m，8 段网格），常用于模拟挑梁、阳台、起重机臂等仅单侧支撑的构件，重点考察固定端应力集中与自由端挠度。',
+    boundary: '左端整列节点（x = 0）完全固定（UX = UY = 0），其余节点全部自由。',
+    load: '右端顶部与底部节点各施加 10 kN 竖直向下载荷（合计 20 kN），主要引发弯曲与挠曲变形。',
+  },
+  bridge: {
+    name: '桥梁桁架',
+    scene: '简支桁架桥（跨径 10 m × 高 2 m，10 个节间），模拟公路 / 人行桥梁的主承重桁架，用于评估杆件轴力分布与跨中挠度。',
+    boundary: '简支约束——下弦左、右两端节点均完全固定（x、y 方向），上弦及内部节点自由。',
+    load: '跨中下弦节点施加 50 kN 竖直向下载荷，形成下弦受拉、上弦受压的典型桥梁受力模式。',
+  },
+  frame: {
+    name: '简单框架',
+    scene: '多层多跨梁柱框架（3 m × 3 m，4×4 网格），模拟建筑物承重骨架，可观察整体抗侧移与抗弯性能。',
+    boundary: '底层整排节点（y = 0）完全固定，上部所有节点自由。',
+    load: '顶部中心节点施加水平 5 kN + 竖直向下 20 kN 组合载荷，同时考察抗弯与抗侧移能力。',
+  },
 };
 
 // ─── Jet Colormap ───────────────────────────────────────────────────────────
