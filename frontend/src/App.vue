@@ -8,7 +8,7 @@ import { useFEAStore } from './store/fea';
 const store = useFEAStore();
 
 onMounted(() => {
-  store.loadPreset('cantilever');
+  store.loadPreset(store.selectedPreset);
 });
 </script>
 

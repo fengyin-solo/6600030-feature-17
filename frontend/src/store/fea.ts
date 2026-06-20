@@ -11,9 +11,16 @@ import {
 } from '../utils/fea-solver';
 
 export const useFEAStore = defineStore('fea', () => {
+  const STORAGE_KEY = 'fea-selected-preset';
+  const validPresets = ['cantilever', 'bridge', 'frame'];
+
+  const savedPreset = validPresets.includes(localStorage.getItem(STORAGE_KEY) ?? '')
+    ? (localStorage.getItem(STORAGE_KEY) as string)
+    : 'cantilever';
+
   const model = ref<FEAModel>({ nodes: [], elements: [], loads: [] });
   const result = ref<FEAResult | null>(null);
-  const selectedPreset = ref<string>('cantilever');
+  const selectedPreset = ref<string>(savedPreset);
   const showDeformed = ref(false);
   const deformationScale = ref(10);
   const selectedElement = ref<number | null>(null);
@@ -22,6 +29,7 @@ export const useFEAStore = defineStore('fea', () => {
   // ─── Actions ──────────────────────────────────────────────────────────────
   function loadPreset(name: string) {
     selectedPreset.value = name;
+    localStorage.setItem(STORAGE_KEY, name);
     result.value = null;
     selectedElement.value = null;
     switch (name) {
